@@ -1,8 +1,7 @@
 package unadm.adcr.main;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class PanelFormulario extends JPanel {
@@ -10,9 +9,11 @@ public class PanelFormulario extends JPanel {
     private final FrameBase ventanaPrincipal;
     private final JTextField txtNombre;
     private final JTextField txtApellidos;
-    private final JComboBox cbxGeneros;
+    private final JComboBox cbxReqInstructor, cbxInstructor;
     private final JTextArea txtDescripcion;
     private final JButton btnRegistrar, btnVolver, btnLimpiar;
+    private final JLabel lblContador;
+    private int conteoCaracteres;
 
     public PanelFormulario(FrameBase marcoBase) {
 
@@ -41,30 +42,58 @@ public class PanelFormulario extends JPanel {
         txtApellidos.setBounds(240, 120, 270, 20);
         add(txtApellidos);
 
-        JLabel lblGenero = new JLabel("Género:");
-        lblGenero.setBounds(250, 150, 100, 15);
+        JLabel lblGenero = new JLabel("Requiere instructor:            Preferible:");
+        lblGenero.setBounds(240, 150, 250, 15);
         add(lblGenero);
 
-        cbxGeneros = new JComboBox();
-        cbxGeneros.addItem("-");
-        cbxGeneros.addItem("Hombre");
-        cbxGeneros.addItem("Mujer");
-        cbxGeneros.addItem("No se especifíca");
-        cbxGeneros.setBounds(240, 170, 100, 20);
-        add(cbxGeneros);
+        cbxInstructor = new JComboBox();
+        cbxInstructor.setEnabled(false);
+        cbxInstructor.addItem("Hombre");
+        cbxInstructor.addItem("Mujer");
+        cbxInstructor.addItem("Cualquiera");
+        cbxInstructor.setBounds(390, 170, 100, 20);
+        add(cbxInstructor);
+
+        cbxReqInstructor = new JComboBox();
+        cbxReqInstructor.addItem("-");
+        cbxReqInstructor.addItem("Sí");
+        cbxReqInstructor.addItem("No");
+        cbxReqInstructor.setBounds(240, 170, 120, 20);
+        cbxReqInstructor.addActionListener((ActionEvent e) -> {
+            JComboBox lista = (JComboBox) e.getSource();
+            
+            if (lista.getSelectedItem()=="Sí") {
+                cbxInstructor.setEnabled(true);
+            } else cbxInstructor.setEnabled(false);
+        });
+        add(cbxReqInstructor);
 
         JLabel lblDescripcion = new JLabel("<html>Acerca de mi:<br><i>Cuentanos tus gustos, ábitos, pasatiempos</i></html>");
         lblDescripcion.setBounds(250, 200, 300, 40);
         add(lblDescripcion);
 
         txtDescripcion = new JTextArea();
+        txtDescripcion.setFocusable(true);
         txtDescripcion.setBounds(240, 240, 270, 100);
         txtDescripcion.setLineWrap(true);
+        txtDescripcion.setWrapStyleWord(true);
+        txtDescripcion.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                contarCaracteres();
+            }
+
+        });
         add(txtDescripcion);
 
         JLabel lblMinimo = new JLabel("(mínimo 100 caracteres)");
         lblMinimo.setBounds(240, 340, 200, 15);
         add(lblMinimo);
+
+        lblContador = new JLabel("0/100 caracteres");
+        lblContador.setForeground(Color.RED);
+        lblContador.setBounds(420, 340, 200, 15);
+        add(lblContador);
 
         EventosRaton llamarEventos = new EventosRaton();
 
@@ -100,6 +129,7 @@ public class PanelFormulario extends JPanel {
             if (botonFuente == btnLimpiar) {
                 if (JOptionPane.showConfirmDialog(ventanaPrincipal, "¿Seguro que quieres borrar todos los campos?", "Confirmacion", 0) == 0) {
                     limpiarCampos();
+                    contarCaracteres();
                 }
             }
 
@@ -108,6 +138,7 @@ public class PanelFormulario extends JPanel {
                 if (comprobarDatos()) {
                     JOptionPane.showMessageDialog(ventanaPrincipal, "Registro completado con exito");
                     limpiarCampos();
+                    contarCaracteres();
                 }
             }
 
@@ -140,7 +171,7 @@ public class PanelFormulario extends JPanel {
         txtNombre.setText(null);
         txtApellidos.setText(null);
         txtDescripcion.setText(null);
-        cbxGeneros.setSelectedIndex(0);
+        cbxReqInstructor.setSelectedIndex(0);
     }
 
     private boolean comprobarDatos() {
@@ -152,19 +183,41 @@ public class PanelFormulario extends JPanel {
             return false;
         }
 
-        if (cbxGeneros.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(ventanaPrincipal, "Por favor elige una opción en género");
+        if (cbxReqInstructor.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(ventanaPrincipal, "Por favor responda la pregunta acerca del instructor");
             return false;
         }
 
         int longitudTexto = txtDescripcion.getText().length();
 
-        if (longitudTexto < 100) {
+        if (conteoCaracteres < 100) {
             JOptionPane.showMessageDialog(ventanaPrincipal, "Cuentanos un poco más sobre ti", "Texto descriptivo demasiado corto", 1);
             return false;
         }
 
         return todoCorrecto;
+
+    }
+
+    private void contarCaracteres() {
+
+        String texto = txtDescripcion.getText();
+        int espacios = 0;
+
+        for (int i = 0; i < texto.length(); i++) {
+            if (texto.charAt(i) == ' ') {
+                espacios++;
+            }
+        }
+
+        conteoCaracteres = texto.length() - espacios;
+        lblContador.setText(conteoCaracteres + "/100 caracteres");
+
+        if (conteoCaracteres >= 100) {
+            lblContador.setForeground(new Color(10, 200, 50));
+        } else {
+            lblContador.setForeground(Color.RED);
+        }
 
     }
 

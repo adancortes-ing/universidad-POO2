@@ -3,10 +3,10 @@ package unadm.adcr.main;
 import java.awt.*;
 import javax.swing.*;
 
-public class FrameBase extends JFrame {
+public final class FrameBase extends JFrame {
 
-    private PanelNavegacion pnlMenu;
-    private PanelFormulario pnlFormulario;
+    private final PanelNavegacion pnlMenu;
+    private final PanelFormulario pnlFormulario;
 
     public FrameBase() {
         setTitle("Registro de Socios :: Adán Cortés Rodríguez");
