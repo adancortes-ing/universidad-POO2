@@ -4,9 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PrincipalFrame extends JFrame {
+    
+    private final Biblioteca biblioteca = new Biblioteca();;
 
     //Declaración de variables
+    public static Image favicon;
     private JMenuBar barraMenu;
+    private static CardLayout navegacion;
+    private static JPanel pnlCentral;
+    private final VentanaRegistrar registrar;
 
     public PrincipalFrame() {
 
@@ -15,11 +21,13 @@ public class PrincipalFrame extends JFrame {
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Image favicon = Recursos.cargarImagen("favicon.png").getImage();
+        favicon = Recursos.cargarImagen("favicon.png").getImage();
         setIconImage(favicon);
 
         cargarBarraDeMenu();
         cargarComponentes();
+
+        registrar = new VentanaRegistrar(this, biblioteca);
 
     }
 
@@ -46,10 +54,27 @@ public class PrincipalFrame extends JFrame {
 
         HeaderPanel cabecera = new HeaderPanel();
         PanelMenu menu = new PanelMenu(this);
+        navegacion = new CardLayout();
+        pnlCentral = new JPanel(navegacion);
+
+        PanelProvisional pnlInicio = new PanelProvisional("Bienvenido al Sistema");
+        PanelProvisional pnlLibros = new PanelProvisional("Módulo de Administración de Libros");
+        JScrollPane scrollCentral = new JScrollPane(pnlCentral);
+
+        pnlCentral.add(pnlInicio, "Inicio");
+        pnlCentral.add(pnlLibros, "Libros");
 
         add(cabecera, BorderLayout.NORTH);
         add(menu, BorderLayout.WEST);
+        add(scrollCentral, BorderLayout.CENTER);
 
+        cambiarVista("Inicio");
+
+    }
+
+    public static void cambiarVista(String destino) {
+
+        navegacion.show(pnlCentral, destino);
     }
 
     private void cargarBarraDeMenu() {
@@ -99,9 +124,35 @@ public class PrincipalFrame extends JFrame {
             barraMenu.add(e);
         }
 
+        nuevoLibro.addActionListener(ActionEvent -> {
+            registrar.setVisible(true);
+        });
+
         salir.addActionListener(ActionEvent -> {
             System.exit(0);
         });
+    }
+
+    class PanelProvisional extends JPanel {
+
+        public PanelProvisional(String texto) {
+
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+            JLabel titulo = new JLabel(texto);
+            titulo.setFont(new Font("Verdana", Font.BOLD, 20));
+            titulo.setForeground(new Color(0, 48, 100));
+            titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            JLabel mensaje = new JLabel("Vista provisional para prueba de CardLayout");
+            mensaje.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            add(Box.createVerticalStrut(100));
+            add(titulo);
+            add(mensaje);
+
+        }
+
     }
 
     private JMenuItem crearItemMenu(String texto, String icono) {

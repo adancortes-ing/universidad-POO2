@@ -48,15 +48,16 @@ public class PanelMenu extends JPanel {
         }
 
         if (botonPulsado == btnLibros) {
-            JOptionPane.showMessageDialog(ventanaPadre, "Este es el módulo de Libros");
+            PrincipalFrame.cambiarVista("Libros");
         } else {
             JOptionPane.showMessageDialog(ventanaPadre, "Este módulo no se ha implementado todavía!", "Mensaje de aviso", JOptionPane.WARNING_MESSAGE);
+            PrincipalFrame.cambiarVista("Inicio");
         }
     };
 
     private JButton crearBoton(String nombre, String icono) {
 
-        Dimension sizeBotones = new Dimension(280, 40);
+        Dimension sizeBotones = new Dimension(280, 45);
         JButton boton = new JButton();
 
         boton.setText(nombre);
