@@ -4,15 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PrincipalFrame extends JFrame {
-    
-    private final Biblioteca biblioteca = new Biblioteca();;
+
+    public final Biblioteca biblioteca = new Biblioteca();
 
     //Declaración de variables
     public static Image favicon;
     private JMenuBar barraMenu;
     private static CardLayout navegacion;
     private static JPanel pnlCentral;
-    private final VentanaRegistrar registrar;
 
     public PrincipalFrame() {
 
@@ -26,8 +25,7 @@ public class PrincipalFrame extends JFrame {
 
         cargarBarraDeMenu();
         cargarComponentes();
-
-        registrar = new VentanaRegistrar(this, biblioteca);
+        generarLibrosPrueba();
 
     }
 
@@ -89,6 +87,9 @@ public class PrincipalFrame extends JFrame {
         JMenu herramientas = new JMenu("Herramientas");
         JMenu ayuda = new JMenu("Ayuda");
 
+        ver.setEnabled(false);
+        herramientas.setEnabled(false);
+
         JMenu[] elementosMenu = {archivo, ver, libros, herramientas, ayuda};
 
         JMenuItem nuevoLibro = crearItemMenu("Nuevo Libro…", "new_book.png");
@@ -96,7 +97,7 @@ public class PrincipalFrame extends JFrame {
         JMenuItem guardar = crearItemMenu("Guardar Datos", "save.png");
         JMenuItem configuracion = crearItemMenu("Configuración", "config.png");
         JMenuItem salir = crearItemMenu("Salir", "");
-        JMenuItem busqueda = crearItemMenu("Buscar Libros", "buscar.png");
+        JMenuItem busqueda = crearItemMenu("Catalogo de Libros", "buscar.png");
         JMenuItem editar = crearItemMenu("Editar Libro", "editar.png");
         JMenuItem eliminar = crearItemMenu("Eliminar Libro", "eliminar.png");
         JMenuItem manual = crearItemMenu("Manual de Uso", "user_manual.png");
@@ -125,7 +126,13 @@ public class PrincipalFrame extends JFrame {
         }
 
         nuevoLibro.addActionListener(ActionEvent -> {
+            VentanaRegistrar registrar = new VentanaRegistrar(this, biblioteca);
             registrar.setVisible(true);
+        });
+
+        busqueda.addActionListener(ActionEvent -> {
+            VentanaCatalogo catalogo = new VentanaCatalogo(this, biblioteca);
+            catalogo.setVisible(true);
         });
 
         salir.addActionListener(ActionEvent -> {
@@ -164,6 +171,42 @@ public class PrincipalFrame extends JFrame {
         item.setIconTextGap(10);
 
         return item;
+    }
+
+    private void generarLibrosPrueba() {
+        Libro libro1 = new Libro(
+                "Cien años de soledad",
+                "Gabriel García Márquez",
+                "9780307474728",
+                "Editorial Sudamericana",
+                1967,
+                350.00,
+                12
+        );
+
+        Libro libro2 = new Libro(
+                "El principito",
+                "Antoine de Saint-Exupéry",
+                "9780156012195",
+                "Salamandra",
+                1943,
+                280.00,
+                8
+        );
+
+        Libro libro3 = new Libro(
+                "Don Quijote de la Mancha",
+                "Miguel de Cervantes",
+                "9788420412146",
+                "Alfaguara",
+                1605,
+                420.00,
+                6
+        );
+
+        biblioteca.agregarLibro(libro1);
+        biblioteca.agregarLibro(libro2);
+        biblioteca.agregarLibro(libro3);
     }
 
 }

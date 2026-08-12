@@ -7,7 +7,8 @@ import javax.swing.*;
 public class VentanaRegistrar extends JDialog {
 
     private final JPanel pnlFormulario;
-    private final JTextField txtTitulo, txtAutor, txtISBN, txtEditorial, txtAnio, txtPrecioCompra;
+    private final JTextField txtTitulo, txtAutor, txtISBN, txtEditorial,
+            txtAnio, txtPrecioCompra;
     private final JSpinner selectorInventario;
     private final Biblioteca biblioteca;
 
@@ -92,7 +93,13 @@ public class VentanaRegistrar extends JDialog {
 
         Object[] respuestas = {"Sí", "No"};
 
-        if (JOptionPane.showOptionDialog(this, "¿Está seguro que desea vaciar todos los campos?", "Pregunta confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, respuestas, respuestas[0]) == 0) {
+        if (JOptionPane.showOptionDialog(this,
+                "¿Está seguro que desea vaciar todos los campos?",
+                "Pregunta confirmación", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                respuestas,
+                respuestas[0]) == 0) {
 
             vaciarCampos();
         }

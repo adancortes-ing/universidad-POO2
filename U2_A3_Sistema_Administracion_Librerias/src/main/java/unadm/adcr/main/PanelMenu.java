@@ -50,7 +50,9 @@ public class PanelMenu extends JPanel {
         if (botonPulsado == btnLibros) {
             PrincipalFrame.cambiarVista("Libros");
         } else {
-            JOptionPane.showMessageDialog(ventanaPadre, "Este módulo no se ha implementado todavía!", "Mensaje de aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(ventanaPadre,
+                    "Este módulo no se ha implementado todavía!",
+                    "Mensaje de aviso", JOptionPane.WARNING_MESSAGE);
             PrincipalFrame.cambiarVista("Inicio");
         }
     };
