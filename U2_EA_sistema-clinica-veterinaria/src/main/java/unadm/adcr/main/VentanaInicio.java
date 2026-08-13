@@ -1,8 +1,7 @@
 package unadm.adcr.main;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class VentanaInicio extends JFrame {
@@ -58,6 +57,7 @@ public class VentanaInicio extends JFrame {
         }
 
         add(centro, BorderLayout.CENTER);
+        ControlBotones.setVentanaPrincipal(this);
     }
 
     private void crearBoton(String etiqueta) {
@@ -83,8 +83,12 @@ public class VentanaInicio extends JFrame {
 
     public static class ControlBotones implements ActionListener {
 
-        public static final ControlBotones INSTANCIA = new ControlBotones();
+        private static final ControlBotones INSTANCIA = new ControlBotones();
         private static VentanaInicio ventanaPrincipal;
+
+        public static void setVentanaPrincipal(VentanaInicio ventanaPrincipal) {
+            ControlBotones.ventanaPrincipal = ventanaPrincipal;
+        }
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -103,13 +107,9 @@ public class VentanaInicio extends JFrame {
                     break;
 
                 default:
-                    JOptionPane.showMessageDialog(null, "Este módulo no se ha implementado");
+                    JOptionPane.showMessageDialog(ventanaPrincipal, "Este módulo no se ha implementado");
             }
 
-        }
-        
-        public static void setVentanaPrincipal(VentanaInicio vi){
-            ventanaPrincipal = vi;
         }
 
     }

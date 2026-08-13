@@ -15,7 +15,6 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
 
             VentanaInicio inicio = new VentanaInicio();
-            VentanaInicio.ControlBotones.setVentanaPrincipal(inicio);
             inicio.setVisible(true);
         });
     }
