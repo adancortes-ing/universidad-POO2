@@ -14,7 +14,9 @@ public class VentanaMascotas extends JDialog {
         "Calculadora de Alimentos", "Calculadora de Medicamentos"};
     private final String[] elementosAyuda = {"Manual del Usuario", "Atajos de Teclado",
         "Actualizaciones", "Acerca de"};
-
+    
+    public Registro registroMascotas;
+    
     public VentanaMascotas(VentanaInicio ventanaPadre) {
 
         super(ventanaPadre, true);
@@ -27,6 +29,7 @@ public class VentanaMascotas extends JDialog {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        registroMascotas = new Registro();
         cargarMenu();
         cargarComponentes();
     }
@@ -35,7 +38,6 @@ public class VentanaMascotas extends JDialog {
 
         JPanel pnlCentral = new JPanel();
         pnlCentral.setBackground(new Color(227, 173, 132));
-        //pnlCentral.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         pnlCentral.setLayout(new GridBagLayout());
 
         JLabel lblImgLogo = new JLabel();
@@ -138,6 +140,7 @@ public class VentanaMascotas extends JDialog {
                     JOptionPane.showMessageDialog(ventana,
                             "Botón simulado sin ninguna funcionalidad");
             }
+
         }
 
     }
