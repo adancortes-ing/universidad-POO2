@@ -302,6 +302,7 @@ public class VentanaRegistro extends JDialog {
         txtNotas.setText("");
     }
 
+    @SuppressWarnings("unused")
     private void btnLimpiarAction(ActionEvent e) {
 
         if (JOptionPane.showConfirmDialog(this, "¿Seguro que quieres borrar todos los campos?", "Confirmación", JOptionPane.YES_NO_OPTION) == 0) {
@@ -310,6 +311,7 @@ public class VentanaRegistro extends JDialog {
 
     }
 
+    @SuppressWarnings("unused")
     private void btnCancelarAction(ActionEvent e) {
 
         if (JOptionPane.showConfirmDialog(this, "¿Seguro que desea salir sin registrar la mascota?", "Confirmación", JOptionPane.YES_NO_OPTION) == 0) {
@@ -319,6 +321,7 @@ public class VentanaRegistro extends JDialog {
 
     }
 
+    @SuppressWarnings("unused")
     private void btnRegistrarAction(ActionEvent e) {
 
         String sexo = "No especificado";
@@ -355,7 +358,7 @@ public class VentanaRegistro extends JDialog {
         String cadenaDetalles = String.join(", ", listaDetalles);
 
         if (comprobarFormulario()) {
-            Mascota mascota = new Mascota(Registro.INSTANCIA.comprobarIdDisponible(),
+            Mascota mascota = new Mascota(Registro.getInstanciaRegistro().comprobarIdDisponible(),
                     txtNombreMascota.getText(),
                     txtNombreCliente.getText(),
                     txtEspecie.getText(),
@@ -366,7 +369,7 @@ public class VentanaRegistro extends JDialog {
                     cadenaDetalles,
                     txtNotas.getText());
 
-            Registro.INSTANCIA.agregarMascota(mascota);
+            Registro.getInstanciaRegistro().agregarMascota(mascota);
             JOptionPane.showMessageDialog(this, "Mascota registrada con exito");
             vaciarFormulario();
         }

@@ -6,6 +6,8 @@ import javax.swing.*;
 
 public class VentanaInicio extends JFrame {
 
+    private final ControlBotones controladorBotones;
+
     private final String[] botones = {
         "Registro de Mascotas",
         "Agenda de Consultas",
@@ -19,6 +21,7 @@ public class VentanaInicio extends JFrame {
     private JPanel centro;
 
     public VentanaInicio() {
+        this.controladorBotones = new ControlBotones(this);
 
         // Propiedades de la ventana principal =================================
         setTitle("Sistema Integral para la Administración de Veterinarias");
@@ -57,7 +60,6 @@ public class VentanaInicio extends JFrame {
         }
 
         add(centro, BorderLayout.CENTER);
-        ControlBotones.setVentanaPrincipal(this);
     }
 
     private void crearBoton(String etiqueta) {
@@ -68,7 +70,7 @@ public class VentanaInicio extends JFrame {
         boton.setMaximumSize(boton.getPreferredSize());
         boton.setAlignmentX(Component.CENTER_ALIGNMENT);
         boton.setFocusable(false);
-        boton.addActionListener(ControlBotones.INSTANCIA);
+        boton.addActionListener(controladorBotones);
 
         if (!etiqueta.equals("Salir del Sistema")) {
             centro.add(boton);
@@ -81,13 +83,12 @@ public class VentanaInicio extends JFrame {
 
     }
 
-    public static class ControlBotones implements ActionListener {
+    private class ControlBotones implements ActionListener {
 
-        private static final ControlBotones INSTANCIA = new ControlBotones();
-        private static VentanaInicio ventanaPrincipal;
+        private final VentanaInicio ventanaPadre;
 
-        public static void setVentanaPrincipal(VentanaInicio ventanaPrincipal) {
-            ControlBotones.ventanaPrincipal = ventanaPrincipal;
+        public ControlBotones(VentanaInicio ventana) {
+            this.ventanaPadre = ventana;
         }
 
         @Override
@@ -97,20 +98,20 @@ public class VentanaInicio extends JFrame {
 
             switch (botonPulsado.getText()) {
 
-                case "Registro de Mascotas":
-                    VentanaMascotas mascotas = new VentanaMascotas(ventanaPrincipal);
+                case "Registro de Mascotas" -> {
+                    VentanaMascotas mascotas = new VentanaMascotas(ventanaPadre);
                     mascotas.setVisible(true);
-                    break;
+                }
 
-                case "Salir del Sistema":
+                case "Salir del Sistema" ->
                     System.exit(0);
-                    break;
 
-                default:
-                    JOptionPane.showMessageDialog(ventanaPrincipal, "Este módulo no se ha implementado");
+                default ->
+                    JOptionPane.showMessageDialog(ventanaPadre, "Este módulo no se ha implementado");
             }
 
         }
 
     }
+
 }

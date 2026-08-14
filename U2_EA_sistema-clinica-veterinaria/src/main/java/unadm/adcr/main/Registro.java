@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Registro {
-    
-    public static final Registro INSTANCIA = new Registro();
 
-    private final List<Mascota> registroMascotas = new ArrayList<>();
+    private static Registro instanciaReg;
+    private final List<Mascota> registroMascotas;
 
-    public Registro() {
+    private Registro() {
 
+        registroMascotas = new ArrayList<>();
         generarMascotas();
     }
 
@@ -37,7 +37,7 @@ public class Registro {
     }
 
     public List<Mascota> getRegistroMascotas() {
-        
+
         return registroMascotas;
     }
 
@@ -48,9 +48,18 @@ public class Registro {
     public int comprobarIdDisponible() {
         int idSiguiente;
 
-        idSiguiente = Registro.INSTANCIA.getRegistroMascotas().getLast().getIdMascota();
+        idSiguiente = Registro.instanciaReg.getRegistroMascotas().getLast().getIdMascota();
 
         return idSiguiente + 1;
+    }
+
+    public static Registro getInstanciaRegistro() {
+
+        if (instanciaReg == null) {
+            instanciaReg = new Registro();
+        }
+
+        return instanciaReg;
     }
 
 }

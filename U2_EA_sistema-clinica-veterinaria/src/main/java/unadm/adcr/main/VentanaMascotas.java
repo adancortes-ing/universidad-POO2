@@ -14,9 +14,9 @@ public class VentanaMascotas extends JDialog {
         "Calculadora de Alimentos", "Calculadora de Medicamentos"};
     private final String[] elementosAyuda = {"Manual del Usuario", "Atajos de Teclado",
         "Actualizaciones", "Acerca de"};
-    
+
     private final ControlMenu controladorMenu;
-    
+
     public VentanaMascotas(VentanaInicio ventanaPadre) {
 
         super(ventanaPadre, true);
@@ -29,7 +29,7 @@ public class VentanaMascotas extends JDialog {
 
         cargarMenu();
         cargarComponentes();
-        
+
         pack();
         setMinimumSize(getSize());
         setLocationRelativeTo(ventanaPadre);
@@ -115,9 +115,9 @@ public class VentanaMascotas extends JDialog {
         menu.add(opcion);
     }
 
-    private static class ControlMenu implements ActionListener {
+    private class ControlMenu implements ActionListener {
 
-        private static VentanaMascotas ventana;
+        private final VentanaMascotas ventana;
 
         public ControlMenu(VentanaMascotas ventana) {
             this.ventana = ventana;
@@ -128,18 +128,17 @@ public class VentanaMascotas extends JDialog {
             JMenuItem opcion = (JMenuItem) e.getSource();
 
             switch (opcion.getText()) {
-                case "Registrar Nueva Mascota":
+                case "Registrar Nueva Mascota" ->
                     new VentanaRegistro(ventana).setVisible(true);
-                    break;
-                case "Listado de Mascotas":
+
+                case "Listado de Mascotas" ->
                     new VentanaExpedientes(ventana).setVisible(true);
-                    break;
-                case "Salir":
+
+                case "Salir" ->
                     ventana.dispose();
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(ventana,
-                            "Botón simulado sin ninguna funcionalidad");
+
+                default ->
+                    JOptionPane.showMessageDialog(ventana, "Botón simulado sin ninguna funcionalidad");
             }
 
         }

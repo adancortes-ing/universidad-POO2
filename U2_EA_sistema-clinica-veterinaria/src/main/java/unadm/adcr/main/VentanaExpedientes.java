@@ -42,7 +42,7 @@ public class VentanaExpedientes extends JDialog {
         DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
         tblMascotas = new JTable(modeloTabla);
 
-        for (Mascota m : Registro.INSTANCIA.getRegistroMascotas()) {
+        for (Mascota m : Registro.getInstanciaRegistro().getRegistroMascotas()) {
             modeloTabla.addRow(new Object[]{
                 m.getIdMascota(),
                 m.getNombreMascota(),
@@ -109,7 +109,7 @@ public class VentanaExpedientes extends JDialog {
 
         if (fila >= 0) {
 
-            Mascota mascota = Registro.INSTANCIA.getRegistroMascotas().get(fila);
+            Mascota mascota = Registro.getInstanciaRegistro().getRegistroMascotas().get(fila);
 
             JOptionPane.showMessageDialog(this,
                     "Nombre de la mascota: " + mascota.getNombreMascota()
@@ -132,7 +132,7 @@ public class VentanaExpedientes extends JDialog {
 
         if (fila >= 0) {
             
-            Registro.INSTANCIA.getRegistroMascotas().remove(fila);
+            Registro.getInstanciaRegistro().getRegistroMascotas().remove(fila);
             actualizarTabla();
         }
     }
@@ -142,7 +142,7 @@ public class VentanaExpedientes extends JDialog {
 
         modelo.setRowCount(0);
 
-        for (Mascota m : Registro.INSTANCIA.getRegistroMascotas()) {
+        for (Mascota m : Registro.getInstanciaRegistro().getRegistroMascotas()) {
             modelo.addRow(new Object[]{
                 m.getIdMascota(),
                 m.getNombreMascota(),
