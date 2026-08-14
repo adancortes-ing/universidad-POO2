@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 public class VentanaRegistro extends JDialog {
 
-    private VentanaMascotas ventanaPadre;
-
     private JTextField txtNombreMascota, txtNombreCliente, txtEspecie;
     private JRadioButton sexoM, sexoF;
     private JSpinner spnEdad, spnPeso;
@@ -23,10 +21,8 @@ public class VentanaRegistro extends JDialog {
     private final String[] listaTemperamentos = {"—", "1 — Pasivo / Muy Tranquilo", "2 — Docil / Cauto",
         "3 — Amigable / Juguetón", "4 — Desconfiado / Poco Agresivo", "5 — Muy Agresivo"};
 
-    public VentanaRegistro(VentanaMascotas padre) {
-        super(padre, true);
-
-        this.ventanaPadre = padre;
+    public VentanaRegistro(VentanaMascotas owner) {
+        super(owner, true);
 
         // Propiedades de la ventana ===============================================================
         setTitle("Mascotas — Registrar Nueva Mascota");
@@ -37,7 +33,7 @@ public class VentanaRegistro extends JDialog {
 
         pack();
         setMinimumSize(getSize());
-        setLocationRelativeTo(padre);
+        setLocationRelativeTo(owner);
     }
 
     private void cargarComponentes() {
@@ -263,13 +259,13 @@ public class VentanaRegistro extends JDialog {
     private boolean comprobarFormulario() {
 
         if (txtNombreMascota.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "El campo mascota no puede quedar vacio");
+            JOptionPane.showMessageDialog(this, "El nombre de la mascota no puede quedar vacio");
             txtNombreMascota.requestFocus();
             return false;
         }
 
         if (txtNombreCliente.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "El campo del cliente no puede quedar vacio");
+            JOptionPane.showMessageDialog(this, "El nombre del cliente no puede quedar vacio");
             txtNombreCliente.requestFocus();
             return false;
         }
@@ -359,7 +355,7 @@ public class VentanaRegistro extends JDialog {
         String cadenaDetalles = String.join(", ", listaDetalles);
 
         if (comprobarFormulario()) {
-            Mascota mascota = new Mascota(ventanaPadre.registroMascotas.getRegistroMascotas().size() + 1,
+            Mascota mascota = new Mascota(Registro.INSTANCIA.comprobarIdDisponible(),
                     txtNombreMascota.getText(),
                     txtNombreCliente.getText(),
                     txtEspecie.getText(),
@@ -370,15 +366,11 @@ public class VentanaRegistro extends JDialog {
                     cadenaDetalles,
                     txtNotas.getText());
 
-            ventanaPadre.registroMascotas.agregarMascota(mascota);
+            Registro.INSTANCIA.agregarMascota(mascota);
             JOptionPane.showMessageDialog(this, "Mascota registrada con exito");
             vaciarFormulario();
         }
-    }
-
-    //Temporal para arrancar la aplicacion desde aqui
-    public static void main(String[] args) {
-        new VentanaRegistro(null).setVisible(true);
+        
     }
 
 }

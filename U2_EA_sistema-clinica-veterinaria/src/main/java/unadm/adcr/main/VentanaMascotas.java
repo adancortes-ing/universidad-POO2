@@ -9,25 +9,24 @@ public class VentanaMascotas extends JDialog {
     private final String[] elementosArchivo = {"Guardar Datos", "Importar Datos", "Exportar Datos",
         "Imprimir", "Configuración", "Salir"};
     private final String[] elementosMascotas = {"Registrar Nueva Mascota",
-        "Modificar/Eliminar Mascota", "Consulta de Expedientes", "Exportar Expediente"};
+        "Modificar/Eliminar Mascota", "Listado de Mascotas", "Exportar Expediente"};
     private final String[] elementosHerramientas = {"Carnet de Vacunación",
         "Calculadora de Alimentos", "Calculadora de Medicamentos"};
     private final String[] elementosAyuda = {"Manual del Usuario", "Atajos de Teclado",
         "Actualizaciones", "Acerca de"};
     
-    public Registro registroMascotas;
+    private final ControlMenu controladorMenu;
     
     public VentanaMascotas(VentanaInicio ventanaPadre) {
 
         super(ventanaPadre, true);
+        this.controladorMenu = new ControlMenu(this);
 
         // Propiedades de la ventana principal =====================================================
         setTitle("Módulo: Registro de Mascotas - Adán Cortes Rodríguez");
-        setMinimumSize(getSize());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        registroMascotas = new Registro();
         cargarMenu();
         cargarComponentes();
         
@@ -75,7 +74,6 @@ public class VentanaMascotas extends JDialog {
 
         JMenuBar barraMenu = new JMenuBar();
         setJMenuBar(barraMenu);
-        ControlMenu.setVentana(this);
 
         JMenu archivo = new JMenu("Archivo");
         JMenu mascotas = new JMenu("Mascotas");
@@ -108,7 +106,7 @@ public class VentanaMascotas extends JDialog {
 
         JMenuItem opcion = new JMenuItem(etiqueta);
         opcion.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 30));
-        opcion.addActionListener(ControlMenu.INSTANCIA);
+        opcion.addActionListener(controladorMenu);
 
         if (etiqueta.equals("Salir") || etiqueta.equals("Imprimir")) {
             menu.addSeparator();
@@ -119,11 +117,10 @@ public class VentanaMascotas extends JDialog {
 
     private static class ControlMenu implements ActionListener {
 
-        private static final ControlMenu INSTANCIA = new ControlMenu();
         private static VentanaMascotas ventana;
 
-        public static void setVentana(VentanaMascotas ventana) {
-            ControlMenu.ventana = ventana;
+        public ControlMenu(VentanaMascotas ventana) {
+            this.ventana = ventana;
         }
 
         @Override
@@ -134,7 +131,8 @@ public class VentanaMascotas extends JDialog {
                 case "Registrar Nueva Mascota":
                     new VentanaRegistro(ventana).setVisible(true);
                     break;
-                case "Consulta de Expedientes":
+                case "Listado de Mascotas":
+                    new VentanaExpedientes(ventana).setVisible(true);
                     break;
                 case "Salir":
                     ventana.dispose();
