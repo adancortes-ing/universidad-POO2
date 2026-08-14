@@ -14,7 +14,7 @@ public class Mascota {
     public Mascota(int idMascota, String nombreMascota, String nombreCliente, String tipoMascota,
             String sexo, int edadMeses, double peso, String agresividad,
             String detallesClinicos, String anotaciones) {
-        
+
         this.idMascota = idMascota;
         this.nombreMascota = nombreMascota;
         this.nombreCliente = nombreCliente;
@@ -66,6 +66,5 @@ public class Mascota {
     public String getAnotaciones() {
         return anotaciones;
     }
-    
-    
+
 }

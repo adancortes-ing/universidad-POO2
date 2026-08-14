@@ -23,15 +23,17 @@ public class VentanaMascotas extends JDialog {
 
         // Propiedades de la ventana principal =====================================================
         setTitle("Módulo: Registro de Mascotas - Adán Cortes Rodríguez");
-        setSize(1024, 768);
         setMinimumSize(getSize());
-        setLocationRelativeTo(ventanaPadre);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         registroMascotas = new Registro();
         cargarMenu();
         cargarComponentes();
+        
+        pack();
+        setMinimumSize(getSize());
+        setLocationRelativeTo(ventanaPadre);
     }
 
     private void cargarComponentes() {
@@ -42,7 +44,7 @@ public class VentanaMascotas extends JDialog {
 
         JLabel lblImgLogo = new JLabel();
         ImageIcon fondo = new ImageIcon(Main.class.getResource("/bg_mascotas.png"));
-        Image fondoOriginal = fondo.getImage().getScaledInstance(860, 674, Image.SCALE_SMOOTH);
+        Image fondoOriginal = fondo.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         ImageIcon fondoEscalado = new ImageIcon(fondoOriginal);
         lblImgLogo.setIcon(fondoEscalado);
 
@@ -130,6 +132,7 @@ public class VentanaMascotas extends JDialog {
 
             switch (opcion.getText()) {
                 case "Registrar Nueva Mascota":
+                    new VentanaRegistro(ventana).setVisible(true);
                     break;
                 case "Consulta de Expedientes":
                     break;
